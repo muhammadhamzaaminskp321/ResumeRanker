@@ -1,7 +1,7 @@
 ansible-base==2.10.8
 anyio==4.7.0
 apache-libcloud==3.2.0
-apturl==0.5.2
+#apturl==0.5.2
 argcomplete==1.8.1
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
