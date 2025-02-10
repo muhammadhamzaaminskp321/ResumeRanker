@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Ranker Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4B0082, #6A0DAD); /* Purple Gradient */
+            color: white;
+            animation: fadeIn 1.5s ease-in;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dashboard-container {
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h2 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        textarea, input[type="file"] {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            width: 100%;
+            color: white;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-btn {
+            background: linear-gradient(135deg, #27AE60, #1D8348);
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: 0.3s ease-in-out;
+            will-change: transform;
+        }
+
+        .custom-btn:hover {
+            background: linear-gradient(135deg, #1D8348, #27AE60);
+            transform: scale(1.05);
+        }
+
+        .file-input-button {
+            background: linear-gradient(135deg, #2980B9, #2471A3);
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            color: white;
+            display: block;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .table-container {
+            margin-top: 30px;
+        }
+
+        .table-dark {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2><i class="fas fa-file-circle-check"></i> Resume Ranker</h2>
+
+        <form action="/" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <label for="job_description">
+                    <i class="fas fa-briefcase"></i> Job Description
+                </label>
+                <textarea class="form-control" id="job_description" name="job_description" rows="4" required aria-label="Job Description"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label for="resumes">
+                    <i class="fas fa-file-arrow-up"></i> Upload Resumes (PDF only)
+                </label>
+                <input type="file" id="resumes" name="resumes" multiple accept=".pdf" required>
+                <label for="resumes" class="file-input-button">Choose Files</label>
+            </div>
+            
+            <button type="submit" class="custom-btn">
+                <i class="fas fa-sort"></i> Rank Resumes
+            </button>
+        </form>
+
+        {% if ranked_resumes %}
+        <div class="table-container">
+            <h3 class="text-white"><i class="fas fa-trophy"></i> Ranked Resumes</h3>
+            <table class="table table-bordered mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-hashtag"></i> Rank</th>
+                        <th><i class="fas fa-file"></i> Resume Name</th>
+                        <th><i class="fas fa-chart-line"></i> Match Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resume in ranked_resumes %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ resume[0] }}</td>
+                        <td>{{ resume[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
